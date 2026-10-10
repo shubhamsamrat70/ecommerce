@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Reply Message</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-gray-100">
+
+<div class="max-w-3xl mx-auto p-8">
+
+    <!-- Header -->
+
+    <div class="flex justify-between items-center mb-8">
+
+        <div>
+
+            <h1 class="text-3xl font-bold text-gray-800">
+                Reply Message
+            </h1>
+
+            <p class="text-gray-500 mt-2">
+                Reply to customer message
+            </p>
+
+        </div>
+
+        <a href="{% url 'view_messages' %}"
+           class="bg-gray-600 hover:bg-gray-700
+                  text-white px-5 py-3 rounded-lg">
+
+            ← Messages
+
+        </a>
+
+    </div>
+
+
+    <!-- Customer Message -->
+
+    <div class="bg-white rounded-xl shadow p-6 mb-6">
+
+        <h2 class="text-xl font-bold mb-5">
+            Customer Message
+        </h2>
+
+        <div class="space-y-3">
+
+            <p>
+                <span class="font-semibold">
+                    Name:
+                </span>
+
+                {{ contact.name }}
+            </p>
+
+            <p>
+                <span class="font-semibold">
+                    Email:
+                </span>
+
+                {{ contact.email }}
+            </p>
+
+            <p>
+                <span class="font-semibold">
+                    Subject:
+                </span>
+
+                {{ contact.subject }}
+            </p>
+
+        </div>
+
+        <div class="bg-gray-50 rounded-lg p-4 mt-5">
+
+            <p class="text-sm text-gray-500 mb-2">
+                Message
+            </p>
+
+            <p class="text-gray-700 whitespace-pre-line">
+                {{ contact.message }}
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Reply Form -->
+
+    <div class="bg-white rounded-xl shadow p-6">
+
+        <h2 class="text-xl font-bold mb-5">
+            Your Reply
+        </h2>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <textarea name="reply"
+                      rows="7"
+                      required
+                      class="w-full border border-gray-300
+                             rounded-lg px-4 py-3
+                             focus:ring-2 focus:ring-indigo-500
+                             focus:outline-none resize-none"
+                      placeholder="Write your reply...">{{ contact.reply|default:"" }}</textarea>
+
+            <div class="flex justify-end gap-3 mt-5">
+
+                <a href="{% url 'view_messages' %}"
+                   class="bg-gray-200 hover:bg-gray-300
+                          text-gray-700 px-6 py-3 rounded-lg">
+
+                    Cancel
+
+                </a>
+
+                <button type="submit"
+                        class="bg-indigo-600 hover:bg-indigo-700
+                               text-white px-6 py-3 rounded-lg
+                               font-semibold">
+
+                    Send Reply
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

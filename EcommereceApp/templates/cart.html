@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+
+{% block title %}My Cart{% endblock %}
+
+{% block content %}
+
+<div class="max-w-7xl mx-auto px-5 py-10">
+
+    <h2 class="text-4xl font-bold mb-8">
+        🛒 My Cart
+    </h2>
+
+    <div class="grid lg:grid-cols-3 gap-8">
+
+        <!-- Left Side -->
+        <div class="lg:col-span-2 space-y-6">
+
+            {% for item in cart_items %}
+
+            <div class="bg-white rounded-xl shadow-md p-6 flex gap-6">
+
+                <!-- Product Image -->
+                <div class="w-40">
+                    <img src="{{ item.product.image.url }}"
+                         class="w-full h-40 object-cover rounded-lg">
+                </div>
+
+                <!-- Product Details -->
+                <div class="flex-1">
+
+                    <h2 class="text-2xl font-semibold">
+                        {{ item.product.product_name }}
+                    </h2>
+
+                    <p class="text-gray-500 mt-2">
+                        Brand :
+                        {{ item.product.brand.brand_name }}
+                    </p>
+
+                    <p class="text-gray-500">
+                        {{ item.product.description|truncatechars:80 }}
+                    </p>
+
+                    <!-- Price -->
+
+                    <div class="mt-4">
+
+                        <span class="text-3xl font-bold text-green-600">
+
+                            ₹{{ item.price }}
+
+                        </span>
+
+                    </div>
+
+                    <!-- Quantity -->
+
+                    <div class="flex items-center gap-3 mt-5">
+
+    <a href="{% url 'decrease_cart' item.id %}"
+       class="w-10 h-10 bg-indigo-600 hover:bg-indigo-700 text-white rounded flex items-center justify-center text-2xl font-bold">
+
+        -
+
+    </a>
+
+    <span class="w-10 text-center text-xl font-bold">
+
+        {{ item.quantity }}
+
+    </span>
+
+    <a href="{% url 'increase_cart' item.id %}"
+       class="w-10 h-10 bg-indigo-600 hover:bg-indigo-700 text-white rounded flex items-center justify-center text-2xl font-bold">
+
+        +
+
+    </a>
+
+</div>
+                    <!-- Item Total -->
+
+                    <p class="mt-5 text-lg font-bold">
+
+                        Total : ₹{{ item.total_price }}
+
+                    </p>
+
+                    <!-- Remove -->
+
+                    <a href="{% url 'remove_cart' item.id %}"
+                       class="inline-block mt-5 border border-red-500 text-red-500 px-5 py-2 rounded hover:bg-red-500 hover:text-white transition">
+
+                        Remove
+
+                    </a>
+
+                    <p class="text-green-600 mt-4 font-semibold">
+
+                        ● In Stock
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <div class="bg-white rounded-xl shadow p-10 text-center">
+
+                <h2 class="text-3xl font-bold">
+
+                    Cart is Empty 😔
+
+                </h2>
+
+                <a href="{% url 'products' %}"
+                   class="inline-block mt-5 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg">
+
+                    Continue Shopping
+
+                </a>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        <!-- Right Side -->
+
+        <div>
+
+            <div class="bg-white rounded-xl shadow-md p-6 sticky top-24">
+
+                <h2 class="text-2xl font-bold mb-6">
+
+                    Price Details
+
+                </h2>
+
+                <div class="space-y-4">
+
+                    <div class="flex justify-between">
+
+                        <span>Total Products</span>
+
+                        <span>{{ cart_items|length }}</span>
+
+                    </div>
+
+                    <div class="flex justify-between">
+
+                        <span>Delivery Charges</span>
+
+                        <span class="text-green-600">
+
+                            FREE
+
+                        </span>
+
+                    </div>
+
+                   
+                    <hr>
+
+                    <div class="flex justify-between text-2xl font-bold">
+
+                        <span>Grand Total</span>
+
+                        <span>
+
+                            ₹{{ total }}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <a href="{% url 'checkout' %}"
+                   class="block w-full mt-8 bg-indigo-600 hover:bg-indigo-700 text-center text-white py-4 rounded-lg">
+
+                    Proceed To Checkout
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

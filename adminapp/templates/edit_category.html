@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Category</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body class="bg-gray-100">
+
+<div class="max-w-3xl mx-auto mt-10 bg-white shadow-xl rounded-xl">
+
+    <div class="bg-blue-600 p-6 rounded-t-xl">
+        <h1 class="text-3xl text-white font-bold">
+            Edit Category
+        </h1>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" class="p-8 space-y-6">
+
+        {% csrf_token %}
+
+        <div>
+            <label class="font-semibold">Category Name</label>
+
+            <input
+                type="text"
+                name="category_name"
+                value="{{ edit_category.category_name }}"
+                class="w-full border rounded-lg p-3 mt-2">
+        </div>
+
+        <div>
+            <label class="font-semibold">Slug</label>
+
+            <input
+                type="text"
+                name="slug"
+                value="{{ edit_category.slug }}"
+                class="w-full border rounded-lg p-3 mt-2">
+        </div>
+
+        <div>
+
+            <label class="font-semibold">Current Image</label>
+
+            <img src="{{ edit_category.image.url }}"
+                 class="w-28 h-28 rounded-lg mt-3 mb-4">
+
+            <input
+                type="file"
+                name="image"
+                class="w-full border rounded-lg p-3">
+
+        </div>
+
+        <div>
+
+            <label class="font-semibold">Description</label>
+
+            <textarea
+                name="description"
+                rows="5"
+                class="w-full border rounded-lg p-3 mt-2">{{ edit_category.description }}</textarea>
+
+        </div>
+
+        <div>
+
+            <label class="font-semibold">Status</label>
+
+            <select
+                name="status"
+                class="w-full border rounded-lg p-3 mt-2">
+
+                <option value="True"
+                    {% if edit_category.status %}selected{% endif %}>
+                    Active
+                </option>
+
+                <option value="False"
+                    {% if not edit_category.status %}selected{% endif %}>
+                    Inactive
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="flex gap-4">
+
+            <button
+                class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg">
+
+                Update Category
+
+            </button>
+
+            <a href="{% url 'view_category' %}"
+               class="bg-gray-600 hover:bg-gray-700 text-white px-8 py-3 rounded-lg">
+
+                Cancel
+
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>

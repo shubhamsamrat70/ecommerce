@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Cancel Order</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-gray-100">
+
+<div class="max-w-xl mx-auto py-12 px-5">
+
+    <div class="bg-white rounded-2xl shadow-lg p-8">
+
+        <!-- Heading -->
+
+        <h1 class="text-3xl font-bold">
+            Cancel Order
+        </h1>
+
+        <p class="text-gray-500 mt-2">
+            Order #{{ order.order_number }}
+        </p>
+
+
+        {% if error %}
+
+        <div class="bg-red-100 text-red-700
+                    px-4 py-3 rounded-lg mt-6">
+
+            {{ error }}
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- FORM -->
+
+        <form method="POST" class="mt-7">
+
+            {% csrf_token %}
+
+
+            <p class="font-semibold mb-4">
+                Why do you want to cancel this order?
+            </p>
+
+
+            <!-- Reason 1 -->
+
+            <label class="flex items-center gap-3
+                          border rounded-lg p-4 mb-3
+                          cursor-pointer hover:bg-gray-50">
+
+                <input type="radio"
+                       name="cancel_reason"
+                       value="Ordered by mistake"
+                       class="w-5 h-5"
+                       required>
+
+                <span>
+                    Ordered by mistake
+                </span>
+
+            </label>
+
+
+            <!-- Reason 2 -->
+
+            <label class="flex items-center gap-3
+                          border rounded-lg p-4 mb-3
+                          cursor-pointer hover:bg-gray-50">
+
+                <input type="radio"
+                       name="cancel_reason"
+                       value="Price too high"
+                       class="w-5 h-5">
+
+                <span>
+                    Price too high
+                </span>
+
+            </label>
+
+
+            <!-- Reason 3 -->
+
+            <label class="flex items-center gap-3
+                          border rounded-lg p-4 mb-3
+                          cursor-pointer hover:bg-gray-50">
+
+                <input type="radio"
+                       name="cancel_reason"
+                       value="Found another product"
+                       class="w-5 h-5">
+
+                <span>
+                    Found another product
+                </span>
+
+            </label>
+
+
+            <!-- Reason 4 -->
+
+            <label class="flex items-center gap-3
+                          border rounded-lg p-4 mb-3
+                          cursor-pointer hover:bg-gray-50">
+
+                <input type="radio"
+                       name="cancel_reason"
+                       value="Delivery taking too long"
+                       class="w-5 h-5">
+
+                <span>
+                    Delivery taking too long
+                </span>
+
+            </label>
+
+
+            <!-- Other -->
+
+            <label class="flex items-center gap-3
+                          border rounded-lg p-4 mb-3
+                          cursor-pointer hover:bg-gray-50">
+
+                <input type="radio"
+                       name="cancel_reason"
+                       value="Other"
+                       class="w-5 h-5">
+
+                <span>
+                    Other
+                </span>
+
+            </label>
+
+
+            <!-- Buttons -->
+
+            <div class="flex gap-4 mt-7">
+
+                <a href="{% url 'order_details' order.id %}"
+                   class="w-1/2 text-center
+                          bg-gray-500 hover:bg-gray-600
+                          text-white py-3 rounded-lg">
+
+                    Back
+
+                </a>
+
+
+                <button type="submit"
+                        class="w-1/2
+                               bg-red-500 hover:bg-red-600
+                               text-white py-3 rounded-lg">
+
+                    Confirm Cancellation
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

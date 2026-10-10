@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>View Messages</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-gray-100">
+
+<div class="max-w-7xl mx-auto p-8">
+
+    <!-- HEADER -->
+
+    <div class="flex justify-between items-center mb-8">
+
+        <div>
+
+            <h1 class="text-3xl font-bold text-gray-800">
+                Contact Messages
+            </h1>
+
+            <p class="text-gray-500 mt-2">
+                Messages received from customers
+            </p>
+
+        </div>
+
+        <a href="{% url 'dashboard' %}"
+           class="bg-indigo-600 hover:bg-indigo-700
+                  text-white px-5 py-3 rounded-lg">
+
+            ← Dashboard
+
+        </a>
+
+    </div>
+
+
+    <!-- MESSAGES -->
+
+    <div class="space-y-6">
+
+        {% for contact in contacts %}
+
+        <div class="bg-white rounded-xl shadow p-6">
+
+            <!-- TOP -->
+
+            <div class="flex justify-between items-start">
+
+                <div>
+
+                    <h2 class="text-xl font-bold text-gray-800">
+                        {{ contact.subject }}
+                    </h2>
+
+                    <p class="text-gray-500 mt-1">
+                        {{ contact.created_at|date:"d M Y, h:i A" }}
+                    </p>
+
+                </div>
+
+
+                {% if contact.is_replied %}
+
+                <span class="bg-green-100 text-green-700
+                             px-4 py-2 rounded-full
+                             text-sm font-semibold">
+
+                    Replied
+
+                </span>
+
+                {% else %}
+
+                <span class="bg-yellow-100 text-yellow-700
+                             px-4 py-2 rounded-full
+                             text-sm font-semibold">
+
+                    Pending
+
+                </span>
+
+                {% endif %}
+
+            </div>
+
+
+            <hr class="my-5">
+
+
+            <!-- USER INFO -->
+
+            <div class="grid md:grid-cols-2 gap-4 mb-5">
+
+                <div>
+
+                    <p class="text-sm text-gray-500">
+                        Customer Name
+                    </p>
+
+                    <p class="font-semibold text-gray-800">
+                        {{ contact.name }}
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <p class="text-sm text-gray-500">
+                        Email
+                    </p>
+
+                    <p class="font-semibold text-gray-800">
+                        {{ contact.email }}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- MESSAGE -->
+
+            <div class="bg-gray-50 rounded-lg p-5">
+
+                <p class="text-sm text-gray-500 mb-2">
+                    Message
+                </p>
+
+                <p class="text-gray-700 whitespace-pre-line">
+                    {{ contact.message }}
+                </p>
+
+            </div>
+
+
+            <!-- REPLY -->
+
+            {% if contact.is_replied and contact.reply %}
+
+            <div class="mt-5 bg-green-50
+                        border border-green-200
+                        rounded-lg p-5">
+
+                <p class="text-sm text-green-600 font-semibold mb-2">
+                    Admin Reply
+                </p>
+
+                <p class="text-gray-700 whitespace-pre-line">
+                    {{ contact.reply }}
+                </p>
+
+                {% if contact.replied_at %}
+
+                <p class="text-sm text-gray-500 mt-2">
+                    Replied on:
+                    {{ contact.replied_at|date:"d M Y, h:i A" }}
+                </p>
+
+                {% endif %}
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- ACTION -->
+
+            <div class="mt-5 flex gap-3">
+
+                <a href="{% url 'reply_message' contact.id %}"
+                   class="bg-indigo-600 hover:bg-indigo-700
+                          text-white px-5 py-2 rounded-lg">
+
+                    {% if contact.is_replied %}
+                        Reply Again
+                    {% else %}
+                        Reply
+                    {% endif %}
+
+                </a>
+
+                <a href="{% url 'delete_message' contact.id %}"
+                   onclick="return confirm('Are you sure you want to delete this message?')"
+                   class="bg-red-500 hover:bg-red-600
+                          text-white px-5 py-2 rounded-lg">
+
+                    Delete
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="bg-white rounded-xl shadow p-12 text-center">
+
+            <div class="text-5xl mb-4">
+                💬
+            </div>
+
+            <h2 class="text-2xl font-bold text-gray-700">
+                No Messages Found
+            </h2>
+
+            <p class="text-gray-500 mt-2">
+                Customer messages will appear here.
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

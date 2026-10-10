@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body class="bg-gray-100">
+
+<div class="flex">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-gray-900 text-white min-h-screen">
+
+        <div class="p-6 border-b border-gray-700">
+            <h1 class="text-2xl font-bold">E-Shop Admin</h1>
+        </div>
+
+        <nav class="mt-5">
+
+            <a href="{% url 'dashboard' %}" class="block px-6 py-3 hover:bg-gray-800">📦 Dashboard</a>
+
+            <a href="{% url 'view_product' %}" class="block px-6 py-3 hover:bg-gray-800">🛍 Products</a>
+
+            <a href="{% url 'view_category' %}" class="block px-6 py-3 hover:bg-gray-800">📂 Categories</a>
+
+            <a href="{% url 'view_brand' %}" class="block px-6 py-3 hover:bg-gray-800">🏷 Brands</a>
+
+            <a href="{% url 'admin_orders' %}" class="block px-6 py-3 hover:bg-gray-800">🛒 Orders</a>
+
+            <a href="{% url 'users' %}" class="block px-6 py-3 hover:bg-gray-800">👥 Users</a>
+
+            <a href="{% url 'admin_profile' %}" class="block px-6 py-3 hover:bg-gray-800">👤 Profile</a>
+
+            <a href="{% url 'adminlogout' %}"
+            class="block px-6 py-3 text-red-400 hover:bg-red-600 hover:text-white">
+            🚪 Logout
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <!-- Main -->
+    <main class="flex-1">
+
+        <!-- Navbar -->
+        <header class="bg-white shadow px-8 py-4 flex justify-between items-center">
+
+            <h2 class="text-3xl font-bold">
+                Dashboard
+            </h2>
+
+            <div class="flex items-center gap-4">
+
+                <span class="font-semibold">
+                    Welcome {{ admin.name }}
+                </span>
+
+                <img src="{{ admin.image.url }}"
+                class="w-12 h-12 rounded-full">
+
+            </div>
+
+        </header>
+
+        <div class="p-8">
+
+            <!-- Top Cards -->
+
+            <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-6 mb-10">
+
+                <a href="{% url 'view_product' %}"
+            class="block">
+
+                <div class="bg-blue-500 text-white p-6 rounded-xl shadow
+                            hover:bg-blue-600 transition">
+
+                    <h3 class="text-xl font-bold">
+                        Products
+                    </h3>
+
+                    <p class="text-sm mt-3">
+                        View Products
+                    </p>
+
+                </div>
+
+            </a>
+
+
+                <a href="{% url 'admin_orders' %}"
+            class="block">
+
+                <div class="bg-green-500 text-white p-6 rounded-xl shadow
+                            hover:bg-green-600 transition">
+
+                    <h3 class="text-xl font-bold">
+                        Orders
+                    </h3>
+
+                    <p class="text-sm mt-3">
+                        View Orders
+                    </p>
+
+                </div>
+
+            </a>
+
+            <a href="{% url 'users' %}"
+            class="block">
+
+                <div class="bg-yellow-500 text-white p-6 rounded-xl shadow
+                            hover:bg-yellow-600 transition">
+
+                    <h3 class="text-xl font-bold">
+                        Users
+                    </h3>
+
+                    <p class="text-sm mt-3">
+                        View Registered Users
+                    </p>
+
+                </div>
+
+            </a>
+
+            <a href="{% url 'view_messages' %}"
+            class="block">
+
+                <div class="bg-red-500 text-white p-6 rounded-xl shadow
+                            hover:bg-red-600 transition">
+
+                    <h3 class="text-xl font-bold">
+                        Contact Us
+                    </h3>
+
+                    <p class="text-sm mt-3">
+                        View Messages
+                    </p>
+
+                </div>
+
+            </a>
+
+
+                
+            </div>
+
+            <!-- Modules -->
+
+            <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-8">
+
+                <!-- Products -->
+
+                <div class="bg-white rounded-xl shadow p-6">
+
+                    <h2 class="text-xl font-bold mb-4">
+                        📦 Manage Products
+                    </h2>
+
+                    <ul class="space-y-2 text-gray-600">
+
+                        <ul class="space-y-2 text-gray-600">
+
+                        <a href="{% url 'add_product' %}" class="text-blue-600 hover:underline">
+                        <li>Add Product</li>
+                        </a>
+
+                        <a href="{% url 'view_product' %}" class="text-blue-600 hover:underline">
+                        <li>View Product</li>
+                        </a>
+
+                        <a href="{% url 'view_product' %}" class="text-blue-600 hover:underline">
+                        <li>Edit Product</li>
+                        </a>
+
+                       <a href="{% url 'view_product' %}" class="text-blue-600 hover:underline">
+                        <li>Delete Product</li>
+                        </a>
+
+                        <a href="{% url 'view_product' %}" class="text-blue-600 hover:underline">
+                        <li>Update Stock</li>
+                        </a>
+
+                      
+
+                    </ul>
+
+                </div>
+
+                <!-- Categories -->
+
+                <div class="bg-white rounded-xl shadow p-6">
+
+                    <h2 class="text-xl font-bold mb-4">
+                        📂 Categories
+                    </h2>
+
+                    <ul class="space-y-2 text-gray-600">
+                        <a href="{% url 'view_category' %}" class="text-blue-600 hover:underline">
+                        <li>View Category</li>
+                        </a>
+
+                        <a href="{% url 'sub_category_view' %}" class="text-blue-600 hover:underline">
+                        <li>View Sub Category</li>
+                        </a>
+
+                        <a href="{% url 'category' %}" class="text-blue-600 hover:underline">
+                            <li>Add Category</li>
+                        </a>
+                        
+                        <a href="{% url 'view_category'  %}" class="text-blue-600 hover:underline">  
+                        <li>Edit Category</li>
+                        </a>
+
+                        <a href="{% url 'view_category'  %}" class="text-blue-600 hover:underline">  
+                        <li>Delete Category</li>
+                        </a>
+
+                        
+
+                        <a href="{% url 'add_subcategory' %}" class="text-blue-600 hover:underline">
+                        <li>Add_Sub Category</li>
+                        </a>
+
+                        <a href="{% url 'sub_category_view' %}" class="text-blue-600 hover:underline">
+                        <li>Edit_Sub Category</li>
+                        </a>
+
+                        <a href="{% url 'sub_category_view' %}" class="text-blue-600 hover:underline">
+                        <li>Delete_Sub Category</li>
+                        </a>
+
+                    </ul>
+
+                </div>
+
+                <!-- Brands -->
+
+                <div class="bg-white rounded-xl shadow p-6">
+
+                    <h2 class="text-xl font-bold mb-4">
+                        🏷 Brands
+                    </h2>
+
+                    <ul class="space-y-2 text-gray-600">
+
+                        <a href="{% url 'view_brand' %}" class="text-blue-600 hover:underline">
+                        <li> View Brands </li>
+                        </a>
+
+                       <a href="{% url 'brand' %}" class="text-blue-600 hover:underline">
+                        <li> Add Brands </li>
+                        </a>
+
+
+                        <a href="{% url 'view_brand' %}" class="text-blue-600 hover:underline">
+                        <li> Edit Brands </li>
+                        </a>
+
+
+                        <a href="{% url 'view_brand' %}" class="text-blue-600 hover:underline">
+                        <li> Delete Brands </li>
+                        </a>
+
+
+                        
+
+                    </ul>
+
+                </div>
+
+                <!-- Orders -->
+
+                <div class="bg-white rounded-xl shadow p-6">
+
+                    <h2 class="text-xl font-bold mb-4">
+                        🛒 Orders
+                    </h2>
+
+                    <ul class="space-y-2 text-gray-600">
+                        <a href="{% url 'admin_orders' %}" class="text-blue-600 hover:underline">
+                        <li>View Orders</li>
+                         </a>
+
+                        <a href="{% url 'admin_orders' %}" class="text-blue-600 hover:underline">
+                        <li>Update Status</li>
+                         </a>
+
+                        <a href="{% url 'admin_orders' %}" class="text-blue-600 hover:underline">
+                        <li>Packed / Shipped</li>
+                         </a>
+
+                        <a href="{% url 'admin_orders' %}" class="text-blue-600 hover:underline">
+                        <li>Delivered</li>
+                         </a>
+
+                        <a href="{% url 'admin_orders' %}" class="text-blue-600 hover:underline">
+                        <li>Refund</li>
+                         </a>
+
+                    </ul>
+
+                </div>
+
+                <!-- Users -->
+
+                <div class="bg-white rounded-xl shadow p-6">
+
+                    <h2 class="text-xl font-bold mb-4">
+                        👥 Users
+                    </h2>
+
+                    <ul class="space-y-2 text-gray-600">
+                    <a href="{% url 'users' %}" class="text-blue-600 hover:underline">
+                        <li>View Users</li>
+                        </a>
+                    
+                        <a href="{% url 'block_unblock_users' %}" class="text-blue-600 hover:underline">
+                        <li>Block / Unblock </li>
+                        </a>
+                    
+                        <a href="{% url 'delete_users' %}" class="text-blue-600 hover:underline">
+                        <li>Delete Users </li>
+                        </a>
+
+
+                        <a href="{% url 'user_roles' %}" class="text-blue-600 hover:underline">
+                        <li>User Roles </li>
+                        </a>
+
+                    </ul>
+
+                </div>
+
+                
+                
+                <!-- Messages -->
+
+                <div class="bg-white rounded-xl shadow p-6">
+
+                    <h2 class="text-xl font-bold mb-4">
+                        💬 Messages
+                    </h2>
+
+                    <ul class="space-y-2 text-gray-600">
+
+                        <a href="{% url 'view_messages' %}" class="text-blue-600 hover:underline">
+                        <li>View Messages </li>
+                        </a>
+
+                        <a href="{% url 'view_messages' %}" class="text-blue-600 hover:underline">
+                        <li>Reply Messages </li>
+                        </a>
+
+                        <a href="{% url 'view_messages' %}" class="text-blue-600 hover:underline">
+                        <li>Delete Messages </li>
+                        </a>
+
+                    </ul>
+
+                </div>
+
+               
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

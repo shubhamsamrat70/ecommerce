@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Profile</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+    <div class="max-w-4xl mx-auto py-10 px-5">
+
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+            <!-- Header -->
+
+            <div class="bg-indigo-600 p-8 text-white">
+
+                <h1 class="text-3xl font-bold">
+                    Admin Profile
+                </h1>
+
+                <p class="mt-2 text-indigo-100">
+                    Manage your admin account
+                </p>
+
+            </div>
+
+
+            <!-- Profile -->
+
+            <div class="p-8">
+
+                <div class="flex flex-col md:flex-row
+                            items-center md:items-start gap-8">
+
+
+                    <!-- IMAGE -->
+
+                    <div>
+
+                        {% if admin.image %}
+
+                        <img src="{{ admin.image.url }}"
+                             alt="{{ admin.name }}"
+                             class="w-32 h-32 rounded-full
+                                    object-cover border-4
+                                    border-indigo-100 shadow">
+
+                        {% else %}
+
+                        <div class="w-32 h-32 rounded-full
+                                    bg-gray-200 flex items-center
+                                    justify-center text-5xl">
+
+                            👤
+
+                        </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- DETAILS -->
+
+                    <div class="flex-1 w-full">
+
+                        <div class="mb-5">
+
+                            <p class="text-gray-500 text-sm">
+                                Name
+                            </p>
+
+                            <p class="text-xl font-semibold">
+                                {{ admin.name }}
+                            </p>
+
+                        </div>
+
+
+                        <div class="mb-5">
+
+                            <p class="text-gray-500 text-sm">
+                                Email
+                            </p>
+
+                            <p class="text-xl font-semibold">
+                                {{ admin.email }}
+                            </p>
+
+                        </div>
+
+
+                        <div class="mb-5">
+
+                            <p class="text-gray-500 text-sm">
+                                Phone
+                            </p>
+
+                            <p class="text-xl font-semibold">
+                                {{ admin.phone }}
+                            </p>
+
+                        </div>
+
+
+                        <!-- BUTTONS -->
+
+                        <div class="flex gap-4 mt-7">
+
+                            <a href="{% url 'dashboard' %}"
+                               class="bg-gray-600 hover:bg-gray-700
+                                      text-white px-6 py-3
+                                      rounded-lg">
+
+                                ← Dashboard
+
+                            </a>
+
+
+                            <a href="{% url 'edit_admin_profile' %}"
+                               class="bg-indigo-600 hover:bg-indigo-700
+                                      text-white px-6 py-3
+                                      rounded-lg">
+
+                                ✏️ Edit Profile
+
+                            </a>
+
+                            <a href="{% url 'change_admin_password' %}"
+   class="bg-red-500 hover:bg-red-600
+          text-white px-6 py-3 rounded-lg">
+
+    🔐 Change Password
+
+</a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,287 @@
+{% extends "base.html" %}
+
+{% block title %}
+Order Details
+{% endblock %}
+
+{% block content %}
+
+<div class="max-w-6xl mx-auto">
+
+    <h1 class="text-3xl font-bold mb-8">
+        Order Details
+    </h1>
+
+
+    <!-- ORDER INFO -->
+
+    <div class="bg-white rounded-xl shadow p-6 mb-6">
+
+        <div class="flex justify-between items-center">
+
+            <div>
+
+                <h2 class="text-xl font-bold">
+                    Order #{{ order.order_number }}
+                </h2>
+
+                <p class="text-gray-500 mt-2">
+                    Ordered on:
+                    {{ order.created_at|date:"d M Y, h:i A" }}
+                </p>
+
+            </div>
+
+            <div class="flex flex-col items-end gap-4">
+
+    <span class="bg-yellow-100 text-yellow-700
+                 px-4 py-2 rounded-full">
+        {{ order.order_status }}
+    </span>
+
+    {% if order.order_status == "Pending" or order.order_status == "Confirmed" %}
+
+    <a href="{% url 'cancel_order' order.id %}"
+       class="bg-red-500 hover:bg-red-600
+              text-white px-5 py-2 rounded-lg
+              transition">
+
+        Cancel Order
+
+    </a>
+
+    {% endif %}
+
+</div>
+{% if order.order_status == "Cancelled" and order.cancel_reason %}
+
+<div class="mt-4 bg-red-50 border border-red-200 rounded-lg p-4">
+
+    <p class="font-semibold text-red-700">
+        ❌ Order Cancelled
+    </p>
+
+    <p class="text-gray-700 mt-2">
+        <span class="font-semibold">
+            Cancellation Reason:
+        </span>
+
+        {{ order.cancel_reason }}
+    </p>
+
+    {% if order.cancelled_by == "Admin" %}
+
+    <p class="text-sm text-gray-500 mt-2">
+        This order was cancelled by Admin.
+    </p>
+
+    {% endif %}
+
+    {% if order.cancelled_at %}
+
+    <p class="text-sm text-gray-500 mt-1">
+        Cancelled on:
+        {{ order.cancelled_at|date:"d M Y, h:i A" }}
+    </p>
+
+    {% endif %}
+
+</div>
+
+{% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- ADDRESS -->
+
+    <div class="bg-white rounded-xl shadow p-6 mb-6">
+
+        <h2 class="text-2xl font-bold mb-4">
+            Delivery Address
+        </h2>
+
+        <h3 class="font-bold">
+            {{ order.address.full_name }}
+        </h3>
+
+        <p class="text-gray-600">
+            {{ order.address.phone }}
+        </p>
+
+        <p class="text-gray-600 mt-2">
+            {{ order.address.address_line1 }}
+        </p>
+
+        {% if order.address.address_line2 %}
+
+        <p class="text-gray-600">
+            {{ order.address.address_line2 }}
+        </p>
+
+        {% endif %}
+
+        <p class="text-gray-600 mt-2">
+
+            {{ order.address.city }},
+            {{ order.address.state }} -
+            {{ order.address.pincode }}
+
+        </p>
+
+    </div>
+
+
+    <!-- PRODUCTS -->
+
+    <div class="bg-white rounded-xl shadow p-6 mb-6">
+
+        <h2 class="text-2xl font-bold mb-5">
+            Ordered Products
+        </h2>
+
+
+        {% for item in order_items %}
+
+        <div class="flex gap-5 border-b py-5">
+
+            <img src="{{ item.product.image.url }}"
+                 class="w-24 h-24 object-cover rounded-lg">
+
+
+            <div class="flex-1">
+
+                <h3 class="text-lg font-bold">
+                    {{ item.product.product_name }}
+                </h3>
+
+                <p class="text-gray-600 mt-2">
+                    Quantity: {{ item.quantity }}
+                </p>
+
+                <p class="text-gray-600">
+                    Price: ₹{{ item.product_price }}
+                </p>
+
+                <p class="font-bold mt-2">
+                    Total: ₹{{ item.total_price }}
+                </p>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+
+    <!-- PAYMENT -->
+
+    <div class="bg-white rounded-xl shadow p-6 mb-6">
+
+        <h2 class="text-2xl font-bold mb-5">
+            Payment Details
+        </h2>
+
+        <div class="flex justify-between mb-3">
+
+            <span>
+                Payment Method
+            </span>
+
+            <span class="font-semibold">
+                {{ order.payment_method }}
+            </span>
+
+        </div>
+
+
+        <div class="flex justify-between mb-3">
+
+            <span>
+                Payment Status
+            </span>
+
+            <span class="font-semibold">
+                {{ order.payment_status }}
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- PRICE -->
+
+    <div class="bg-white rounded-xl shadow p-6">
+
+        <h2 class="text-2xl font-bold mb-5">
+            Price Details
+        </h2>
+
+        <div class="space-y-4">
+
+            <div class="flex justify-between">
+
+                <span>
+                    Subtotal
+                </span>
+
+                <span>
+                    ₹{{ order.subtotal }}
+                </span>
+
+            </div>
+
+
+            <div class="flex justify-between">
+
+                <span>
+                    Discount
+                </span>
+
+                <span class="text-green-600">
+                    - ₹{{ order.discount_amount }}
+                </span>
+
+            </div>
+
+
+            <div class="flex justify-between">
+
+                <span>
+                    Shipping
+                </span>
+
+                <span class="text-green-600">
+                    FREE
+                </span>
+
+            </div>
+
+
+            <hr>
+
+
+            <div class="flex justify-between text-2xl font-bold">
+
+                <span>
+                    Grand Total
+                </span>
+
+                <span>
+                    ₹{{ order.grand_total }}
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

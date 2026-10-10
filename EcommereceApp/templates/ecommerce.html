@@ -1,0 +1,254 @@
+{% extends "base.html" %}
+{% load myfilter %}
+
+{% block title %}
+ShopMart
+{% endblock %}
+
+{% block content %}
+
+<div class="max-w-[1400px] mx-auto py-8 px-5">
+
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+
+        <!-- ================= LEFT : CATEGORIES ================= -->
+
+        <div class="lg:col-span-1">
+
+            <div class="bg-white rounded-xl shadow p-5  sticky top-24">
+
+                <h2 class="text-xl font-bold mb-5">
+                    Categories
+                </h2>
+
+                <div class="space-y-2">
+
+                    {% for category in categories %}
+
+                    <a href="{% url 'category_products' category.id %}"
+                       class="block px-4 py-3 rounded-lg
+                              hover:bg-indigo-50
+                              hover:text-indigo-600
+                              transition">
+
+                        {{ category.category_name }}
+
+                    </a>
+
+                    {% empty %}
+
+                    <p class="text-gray-500">
+                        No Categories
+                    </p>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= RIGHT : PRODUCTS ================= -->
+
+        <div class="lg:col-span-4">
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+
+                {% for product in products %}
+
+                <!-- PRODUCT CARD -->
+
+                <div class="bg-white rounded-xl shadow-sm
+                            hover:shadow-xl transition duration-300
+                            overflow-hidden border border-gray-100">
+
+                    <!-- IMAGE -->
+
+                    <div class="relative">
+
+                        <!-- Discount -->
+
+                        {% if product.discount_price %}
+
+                        <span class="absolute top-3 left-3 z-10
+             bg-red-500 text-white
+             text-xs font-bold
+             px-3 py-1 rounded">
+   {{ product.price|percentage:product.discount_price|floatformat:0 }}% OFF
+</span>
+
+                        {% endif %}
+
+
+                        <!-- Wishlist -->
+
+                        <a href="{% url 'add_wishlist' product.id %}"
+                           class="absolute top-3 right-3 z-10
+                                  w-8 h-8 bg-white rounded-full
+                                  shadow flex items-center justify-center
+                                  text-xl transition
+                                  {% if product.id in wishlist_products %}
+                                      text-red-500
+                                  {% else %}
+                                      text-gray-400
+                                  {% endif %}">
+
+                            ♥
+                            
+                        </a>
+
+
+                        <a href="{% url 'product_details' product.id %}">
+
+                            <img src="{{ product.image.url }}"
+                                 alt="{{ product.product_name }}"
+                                 class="w-full h-52 object-contain
+                                        bg-white p-2
+                                        hover:scale-105
+                                        transition duration-300">
+
+                        </a>
+
+                    </div>
+
+
+                    <!-- DETAILS -->
+
+                    <div class="p-4">
+
+                        <!-- Product Name -->
+
+                        <h2 class="text-base font-semibold
+                                   text-gray-800 truncate">
+
+                            {{ product.product_name }}
+
+                        </h2>
+
+
+                        <!-- Brand -->
+
+                        <p class="text-sm text-gray-500 mt-1">
+
+                            {{ product.brand.brand_name }}
+
+                        </p>
+
+
+                        <!-- PRICE -->
+
+                        <div class="flex items-center gap-2 mt-3">
+
+                            {% if product.discount_price %}
+
+                            <span class="text-xl font-bold text-gray-900">
+
+                                ₹{{ product.discount_price }}
+
+                            </span>
+
+                            <span class="text-sm text-gray-400 line-through">
+
+                                ₹{{ product.price }}
+
+                            </span>
+
+                            {% else %}
+
+                            <span class="text-xl font-bold">
+
+                                ₹{{ product.price }}
+
+                            </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- DESCRIPTION -->
+
+                        <p class="text-sm text-gray-500 mt-2 line-clamp-2">
+
+                            {{ product.description }}
+
+                        </p>
+
+
+                        <!-- STOCK -->
+
+                        {% if product.stock > 0 %}
+
+                        <span class="inline-block mt-3
+                                     bg-green-100 text-green-700
+                                     text-xs font-medium
+                                     px-3 py-1 rounded">
+
+                            In Stock
+
+                        </span>
+
+                        {% else %}
+
+                        <span class="inline-block mt-3
+                                     bg-red-100 text-red-600
+                                     text-xs font-medium
+                                     px-3 py-1 rounded">
+
+                            Out of Stock
+
+                        </span>
+
+                        {% endif %}
+
+
+                        <!-- VIEW DETAILS -->
+
+                        <a href="{% url 'product_details' product.id %}"
+                           class="block w-full mt-4
+                                  bg-sky-500 hover:bg-sky-600
+                                  text-white text-center
+                                  py-2.5 rounded-lg
+                                  transition font-medium">
+
+                            🔒 View Details
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+                {% empty %}
+
+                <div class="col-span-full text-center
+                            text-gray-500 text-xl py-10">
+
+                    No Products Available
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+    </div>
+
+</div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

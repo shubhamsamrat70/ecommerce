@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body class="bg-[#26245D] flex items-center justify-center min-h-screen p-6">
+
+<div class="w-full max-w-7xl bg-white rounded-3xl overflow-hidden shadow-2xl grid md:grid-cols-2">
+
+    <!-- Left Side -->
+    <div class="bg-gradient-to-b from-indigo-700 to-blue-700 flex flex-col justify-center items-center text-white p-12">
+
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+        class="w-64 h-64 mb-8">
+
+        <h1 class="text-5xl font-bold mb-5">
+            Admin Portal
+        </h1>
+
+        <p class="text-xl text-center leading-9 text-gray-100 max-w-md">
+            Login securely with your Username, Password and OTP to manage your E-Commerce Site.
+        </p>
+
+    </div>
+
+    <!-- Right Side -->
+    <div class="p-12">
+
+        <h1 class="text-5xl font-bold text-center text-slate-800">
+            Admin Login
+        </h1>
+
+        <p class="text-center text-gray-500 mt-3 text-xl">
+            Welcome Back 👋
+        </p>
+
+        <form class="mt-10 space-y-6" method="POST">
+            {% csrf_token %}
+
+            <!-- Username -->
+            <div>
+                <label class="font-semibold text-xl">
+                    Username
+                </label>
+
+                <div class="relative mt-2">
+
+                    <i class="fa-solid fa-user absolute left-5 top-1/2 -translate-y-1/2 text-gray-400"></i>
+
+                    <input
+                    type="text"
+                    name="username"
+                    placeholder="Enter Username"
+                    class="w-full h-16 border rounded-2xl pl-14 text-lg outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-300">
+
+                </div>
+            </div>
+
+            <!-- Password -->
+            <div>
+
+                <label class="font-semibold text-xl">
+                    Password
+                </label>
+
+                <div class="relative mt-2">
+
+                    <i class="fa-solid fa-lock absolute left-5 top-1/2 -translate-y-1/2 text-gray-400"></i>
+
+                    <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter Password"
+                    class="w-full h-16 border rounded-2xl pl-14 text-lg outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-300">
+
+                </div>
+
+            </div>
+
+          
+            <!-- Remember -->
+            <div class="flex justify-between items-center">
+
+                <label class="flex items-center gap-3 text-lg">
+                    <input type="checkbox" class="w-5 h-5">
+                    Remember Me
+                </label>
+
+                <a href="{% url 'forgot_admin_password' %}" class="text-indigo-600 text-lg hover:underline">
+                    Forgot Password?
+                </a>
+
+            </div>
+
+            <!-- Login -->
+            <button type="submit"
+            class="w-full h-16 rounded-2xl bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white text-2xl font-bold">
+                Login
+            </button>
+
+                 Don't have an account?
+
+                <a href="{% url 'signup' %}"
+                   class="text-indigo-600 font-semibold hover:underline text-center">
+
+                    Signup Please
+
+                </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

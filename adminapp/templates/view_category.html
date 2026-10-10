@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Categories</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+<div class="max-w-7xl mx-auto py-10 px-6">
+
+    <div class="flex justify-between items-center mb-8">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-800">
+                Category Management
+            </h1>
+            <p class="text-gray-500">
+                View and manage all categories.
+            </p>
+        </div>
+        
+                            <a href="{% url 'dashboard' %}"
+                               class="bg-blue-600 hover:bg-gray-700
+                                      text-white px-5 py-3
+                                    
+                                      rounded-lg">
+
+                                ← Dashboard
+
+                            </a>
+
+        <a href="{% url 'category' %}"
+           class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow">
+            + Add Category
+        </a>
+    </div>
+
+    <div class="bg-white rounded-xl shadow overflow-hidden">
+        <!-- Search Box -->
+
+            <form method="GET" class="flex items-center gap-3 mb-6">
+
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ request.GET.search }}"
+                    placeholder="Search Category..."
+                    class="w-80 px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                <button
+                    type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">
+
+                    Search
+
+                </button>
+
+                <a href="{% url 'view_category' %}"
+                class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg">
+
+                    Reset
+
+                </a>
+
+            </form>
+
+        <form method="POST" action="{% url 'multiple_delete_category' %}">
+            {% csrf_token %}
+
+            <table class="w-full">
+                <thead class="bg-gray-800 text-white">
+                    <tr>
+                        <th class="py-3 px-4">
+                            <input type="checkbox" id="checkAll">
+                        </th>
+                        <th class="py-3 px-4">ID</th>
+                        <th class="py-3 px-4">Image</th>
+                        <th class="py-3 px-4">Category</th>
+                        <th class="py-3 px-4">Slug</th>
+                        <th class="py-3 px-4">Description</th>
+                        <th class="py-3 px-4">Status</th>
+                        <th class="py-3 px-4">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for i in category %}
+                    <tr class="border-b hover:bg-gray-50 text-center">
+
+                        <td class="py-4">
+                            <input type="checkbox"
+                                   name="ids"
+                                   value="{{ i.id }}"
+                                   class="checkItem">
+                        </td>
+
+                        <td class="py-4">{{ i.id }}</td>
+
+                        <td class="py-4">
+                            {% if i.image %}
+                            <img src="{{ i.image.url }}"
+                                 class="w-16 h-16 rounded-lg object-cover mx-auto">
+                            {% endif %}
+                        </td>
+
+                        <td class="font-semibold">
+                            {{ i.category_name }}
+                        </td>
+
+                        <td>
+                            {{ i.slug }}
+                        </td>
+
+                        <td class="px-3">
+                            {{ i.description|truncatechars:40 }}
+                        </td>
+
+                        <td>
+                            {% if i.status %}
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
+                                Active
+                            </span>
+                            {% else %}
+                            <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm">
+                                Inactive
+                            </span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            <div class="flex justify-center gap-2">
+
+                                <a href="{% url 'edit_category' i.id %}"
+                                   class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded">
+                                    Edit
+                                </a>
+
+                                <a href="{% url 'delete_category' i.id %}"
+                                   onclick="return confirm('Delete this category?')"
+                                   class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
+                                    Delete
+                                </a>
+
+                            </div>
+                        </td>
+
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="py-10 text-gray-500 text-center">
+                            No Categories Found.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="p-5 flex gap-3">
+
+                <button type="submit"
+                        class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded">
+                    Delete Selected
+                </button>
+
+                <a href="{% url 'delete_all_category' %}"
+                   onclick="return confirm('Delete All Categories?')"
+                   class="bg-red-800 hover:bg-red-900 text-white px-5 py-2 rounded">
+                    Delete All
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+document.getElementById("checkAll").onclick = function () {
+
+    let items = document.getElementsByClassName("checkItem");
+
+    for (let i = 0; i < items.length; i++) {
+        items[i].checked = this.checked;
+    }
+}
+</script>
+
+</body>
+</html>

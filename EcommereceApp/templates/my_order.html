@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Orders
+{% endblock %}
+
+{% block content %}
+
+<div class="max-w-6xl mx-auto">
+
+    <h1 class="text-4xl font-bold mb-8">
+        📦 My Orders
+    </h1>
+
+    {% for order in orders %}
+
+<div class="bg-white rounded-xl shadow-md p-6 mb-6">
+
+    <!-- ORDER HEADER -->
+    <div class="flex justify-between items-center">
+
+        <div>
+
+            <h2 class="text-xl font-bold">
+                Order #{{ order.order_number }}
+            </h2>
+
+            <p class="text-gray-500 mt-1">
+                {{ order.created_at|date:"d M Y, h:i A" }}
+            </p>
+
+        </div>
+
+        <span class="bg-yellow-100 text-yellow-700
+                     px-4 py-2 rounded-full">
+
+            {{ order.order_status }}
+
+        </span>
+
+    </div>
+
+
+    <hr class="my-5">
+
+
+    <!-- ORDER INFORMATION -->
+    <div class="grid md:grid-cols-3 gap-5">
+
+        <!-- PAYMENT -->
+        <div>
+
+            <p class="text-gray-500">
+                Payment
+            </p>
+
+            <p class="font-semibold mt-1">
+                {{ order.payment_method }}
+            </p>
+
+        </div>
+
+
+        <!-- PAYMENT STATUS -->
+        <div>
+
+            <p class="text-gray-500">
+                Payment Status
+            </p>
+
+            <p class="font-semibold mt-1">
+                {{ order.payment_status }}
+            </p>
+
+        </div>
+
+
+        <!-- TOTAL -->
+        <div>
+
+            <p class="text-gray-500">
+                Total Amount
+            </p>
+
+            <p class="font-bold text-xl mt-1">
+                ₹{{ order.grand_total }}
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- VIEW DETAILS BUTTON -->
+    <div class="mt-6">
+
+        <a href="{% url 'order_details' order.id %}"
+           class="inline-block
+                  bg-indigo-600
+                  hover:bg-indigo-700
+                  text-white
+                  px-6 py-3
+                  rounded-lg
+                  transition">
+
+            View Details
+
+        </a>
+
+    </div>
+
+</div>
+
+
+{% empty %}
+
+
+<!-- NO ORDERS -->
+<div class="bg-white rounded-xl shadow p-10 text-center">
+
+    <div class="text-5xl mb-4">
+        🛒
+    </div>
+
+    <h2 class="text-2xl font-bold text-gray-800">
+
+        No Orders Found 😔
+
+    </h2>
+
+    <p class="text-gray-500 mt-2">
+
+        You haven't placed any orders yet.
+
+    </p>
+
+
+    <a href="{% url 'products' %}"
+       class="inline-block mt-5
+              bg-indigo-600
+              hover:bg-indigo-700
+              text-white
+              px-6 py-3
+              rounded-lg
+              transition">
+
+        Continue Shopping
+
+    </a>
+
+</div>
+
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

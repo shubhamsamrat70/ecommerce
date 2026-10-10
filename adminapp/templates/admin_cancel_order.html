@@ -1,0 +1,277 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Cancel Order</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+
+<div class="max-w-2xl mx-auto py-10 px-5">
+
+    <!-- CARD -->
+
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+
+        <!-- HEADER -->
+
+        <div class="bg-red-600 text-white px-8 py-6">
+
+            <h1 class="text-2xl font-bold">
+                Cancel Order
+            </h1>
+
+            <p class="text-red-100 mt-1">
+                Order #{{ order.order_number }}
+            </p>
+
+        </div>
+
+
+        <!-- ORDER INFORMATION -->
+
+        <div class="p-8">
+
+            <div class="bg-gray-50 rounded-xl p-5 mb-7">
+
+                <div class="grid md:grid-cols-2 gap-5">
+
+                    <div>
+
+                        <p class="text-sm text-gray-500">
+                            Customer
+                        </p>
+
+                        <p class="font-semibold text-lg mt-1">
+                            {{ order.user.name }}
+                        </p>
+
+                    </div>
+
+
+                    <div>
+
+                        <p class="text-sm text-gray-500">
+                            Order Amount
+                        </p>
+
+                        <p class="font-bold text-lg mt-1">
+                            ₹{{ order.grand_total }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ERROR -->
+
+            {% if error %}
+
+            <div class="bg-red-100 border border-red-200
+                        text-red-700 px-4 py-3
+                        rounded-lg mb-6">
+
+                {{ error }}
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- FORM -->
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <h2 class="text-xl font-bold mb-5">
+                    Select Cancellation Reason
+                </h2>
+
+
+                <!-- PRODUCT OUT OF STOCK -->
+
+                <label class="flex items-center gap-3
+                              border border-gray-200
+                              rounded-xl p-4 mb-3
+                              cursor-pointer
+                              hover:bg-gray-50">
+
+                    <input
+                        type="radio"
+                        name="cancel_reason"
+                        value="Product out of stock"
+                        required
+                        class="w-5 h-5">
+
+                    <span class="font-medium">
+                        Product out of stock
+                    </span>
+
+                </label>
+
+
+                <!-- PAYMENT ISSUE -->
+
+                <label class="flex items-center gap-3
+                              border border-gray-200
+                              rounded-xl p-4 mb-3
+                              cursor-pointer
+                              hover:bg-gray-50">
+
+                    <input
+                        type="radio"
+                        name="cancel_reason"
+                        value="Payment issue"
+                        class="w-5 h-5">
+
+                    <span class="font-medium">
+                        Payment issue
+                    </span>
+
+                </label>
+
+
+                <!-- INVALID ORDER -->
+
+                <label class="flex items-center gap-3
+                              border border-gray-200
+                              rounded-xl p-4 mb-3
+                              cursor-pointer
+                              hover:bg-gray-50">
+
+                    <input
+                        type="radio"
+                        name="cancel_reason"
+                        value="Invalid order"
+                        class="w-5 h-5">
+
+                    <span class="font-medium">
+                        Invalid order
+                    </span>
+
+                </label>
+
+
+                <!-- DELIVERY UNAVAILABLE -->
+
+                <label class="flex items-center gap-3
+                              border border-gray-200
+                              rounded-xl p-4 mb-3
+                              cursor-pointer
+                              hover:bg-gray-50">
+
+                    <input
+                        type="radio"
+                        name="cancel_reason"
+                        value="Delivery unavailable"
+                        class="w-5 h-5">
+
+                    <span class="font-medium">
+                        Delivery unavailable
+                    </span>
+
+                </label>
+
+
+                <!-- CUSTOMER REQUESTED -->
+
+                <label class="flex items-center gap-3
+                              border border-gray-200
+                              rounded-xl p-4 mb-3
+                              cursor-pointer
+                              hover:bg-gray-50">
+
+                    <input
+                        type="radio"
+                        name="cancel_reason"
+                        value="Customer requested cancellation"
+                        class="w-5 h-5">
+
+                    <span class="font-medium">
+                        Customer requested cancellation
+                    </span>
+
+                </label>
+
+
+                <!-- OTHER -->
+
+                <label class="flex items-center gap-3
+                              border border-gray-200
+                              rounded-xl p-4
+                              cursor-pointer
+                              hover:bg-gray-50">
+
+                    <input
+                        type="radio"
+                        name="cancel_reason"
+                        value="Other"
+                        class="w-5 h-5">
+
+                    <span class="font-medium">
+                        Other
+                    </span>
+
+                </label>
+
+
+                <!-- BUTTONS -->
+
+                <div class="flex gap-4 mt-8">
+
+                    <a
+                        href="{% url 'admin_orders' %}"
+                        class="flex-1 text-center
+                               bg-gray-500
+                               hover:bg-gray-600
+                               text-white py-3
+                               rounded-lg
+                               font-semibold
+                               transition">
+
+                        ← Back
+
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        class="flex-1
+                               bg-red-600
+                               hover:bg-red-700
+                               text-white py-3
+                               rounded-lg
+                               font-semibold
+                               transition">
+
+                        Confirm Cancellation
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

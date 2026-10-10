@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Wishlist
+{% endblock %}
+
+{% block content %}
+
+<div class="max-w-7xl mx-auto py-10">
+
+    <h1 class="text-3xl font-bold mb-8">
+        My Wishlist ❤️
+    </h1>
+
+    {% if wishlist_items %}
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        {% for item in wishlist_items %}
+
+        <div class="bg-white rounded-xl shadow p-4">
+
+            <!-- Product Image -->
+
+            <img src="{{ item.product.image.url }}"
+                 class="w-full h-52 object-contain rounded-lg">
+
+
+            <!-- Product Details -->
+
+            <h2 class="font-bold text-lg mt-4">
+                {{ item.product.product_name }}
+            </h2>
+
+            <p class="text-indigo-600 font-bold text-xl mt-2">
+                ₹{{ item.product.price }}
+            </p>
+
+
+            <!-- Buttons -->
+
+            <div class="flex gap-2 mt-5">
+
+                <a href="{% url 'remove_wishlist' item.product.id %}"
+                   class="flex-1 text-center bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg">
+
+                    Remove
+
+                </a>
+
+                <a href="{% url 'add_to_cart' item.product.id  %}"
+                   class="flex-1 text-center bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg">
+
+                    Add to Cart
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="bg-white rounded-xl shadow p-10 text-center">
+
+        <div class="text-6xl mb-4">
+            ❤️
+        </div>
+
+        <h2 class="text-2xl font-bold">
+            Your Wishlist is Empty
+        </h2>
+
+        <p class="text-gray-500 mt-2">
+            Add products to your wishlist to see them here.
+        </p>
+
+        <a href="{% url 'ecommerce' %}"
+           class="inline-block mt-6 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg">
+
+            Continue Shopping
+
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Brand</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 mt-10 ml-5">
+    
+    <a
+            href="{% url 'dashboard' %}"
+            class="bg-blue-600 hover:bg-gray-700 text-white px-8 py-3 rounded-lg">
+            Back to Dashboard
+          </a>
+
+<div class="max-w-3xl mx-auto mt-10 bg-white shadow-xl rounded-xl">
+
+    <!-- Header -->
+    <div class="bg-blue-600 p-6 rounded-t-xl">
+        <h1 class="text-3xl text-white font-bold">
+            Add Brand
+        </h1>
+    </div>
+
+    <!-- Form -->
+    <form method="POST" enctype="multipart/form-data" class="p-8 space-y-6">
+
+        {% csrf_token %}
+
+          <!-- Sub Category -->
+    <div>
+        <label class="block mb-2 font-semibold">
+            Select Sub Category
+        </label>
+
+        <select
+            name="sub_category"
+            class="w-full border rounded-lg p-3"
+            required>
+
+            <option value="">Select Sub Category</option>
+
+            {% for i in sub_category %}
+                <option value="{{ i.id }}">
+                    {{ i.Sub_category_name }}
+                </option>
+            {% endfor %}
+
+        </select>
+    </div>
+    
+
+        <!-- Brand Name -->
+        <div>
+            <label class="font-semibold">Brand Name</label>
+
+            <input
+                type="text"
+                name="brand_name"
+                placeholder="Enter Brand Name"
+                class="w-full border rounded-lg p-3 mt-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                required>
+        </div>
+
+        <!-- Slug -->
+        <div>
+            <label class="font-semibold">Slug</label>
+
+            <input
+                type="text"
+                name="slug"
+                placeholder="Enter Brand Slug"
+                class="w-full border rounded-lg p-3 mt-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                required>
+        </div>
+
+        <!-- Image -->
+        <div>
+            <label class="font-semibold">Brand Image</label>
+
+            <input
+                type="file"
+                name="image"
+                class="w-full border rounded-lg p-3 mt-2"
+                required>
+        </div>
+
+        <!-- Description -->
+        <div>
+            <label class="font-semibold">Description</label>
+
+            <textarea
+                name="description"
+                rows="5"
+                placeholder="Enter Brand Description"
+                class="w-full border rounded-lg p-3 mt-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                required></textarea>
+        </div>
+
+        <!-- Status -->
+        <div>
+            <label class="font-semibold">Status</label>
+
+            <select
+                name="status"
+                class="w-full border rounded-lg p-3 mt-2">
+
+                <option value="True">Active</option>
+                <option value="False">Inactive</option>
+
+            </select>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex gap-4">
+
+            <button
+                type="submit"
+                class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg">
+                Save Brand
+            </button>
+
+            <button
+                type="reset"
+                class="bg-gray-600 hover:bg-gray-700 text-white px-8 py-3 rounded-lg">
+                Reset
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>

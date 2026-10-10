@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Brands</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+<div class="max-w-7xl mx-auto py-10 px-6">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-8">
+
+        <div>
+            <h1 class="text-3xl font-bold text-gray-800">
+                Brand Management
+            </h1>
+
+            <p class="text-gray-500">
+                View and manage all brands.
+            </p>
+        </div>
+        
+                            <a href="{% url 'dashboard' %}"
+                               class="bg-blue-600 hover:bg-gray-700
+                                      text-white px-5 py-3
+                                    
+                                      rounded-lg">
+
+                                ← Dashboard
+
+                            </a>
+        
+
+        <a href="{% url 'brand' %}"
+           class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow">
+
+            + Add Brand
+
+        </a>
+
+
+    </div>
+
+            <form method="GET" class="flex items-center gap-3 mb-6">
+
+            <input
+                type="text"
+                name="search"
+                value="{{ request.GET.search }}"
+                placeholder="Search Brand..."
+                class="w-80 px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+            <button
+                type="submit"
+                class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">
+                Search
+            </button>
+
+            <a href="{% url 'view_brand' %}"
+            class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg">
+                Reset
+            </a>
+
+        </form>
+
+    <!-- Delete Buttons -->
+
+    <form method="POST" action="{% url 'multiple_delete_brand' %}">
+        {% csrf_token %}
+
+        <div class="mb-4 flex gap-3">
+
+            <button type="submit"
+                class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">
+                Delete Selected
+            </button>
+
+            <a href="{% url 'delete_all_brand' %}"
+               onclick="return confirm('Delete All Brands?')"
+               class="bg-gray-800 hover:bg-black text-white px-4 py-2 rounded">
+
+                Delete All
+
+            </a>
+
+        </div>
+
+        <!-- Table -->
+
+        <div class="bg-white rounded-xl shadow overflow-hidden">
+
+            <table class="w-full">
+
+                <thead class="bg-gray-800 text-white">
+
+                <tr>
+
+                    <th class="py-3">
+                        <input type="checkbox" id="checkAll">
+                    </th>
+
+                    <th>ID</th>
+                    <th>Image</th>
+                    <th>Brand</th>
+                    <th>Slug</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Action</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for i in brand %}
+
+                <tr class="border-b text-center hover:bg-gray-50">
+
+                    <td>
+
+                        <input type="checkbox"
+                               name="ids"
+                               value="{{ i.id }}"
+                               class="checkItem">
+
+                    </td>
+
+                    <td>{{ i.id }}</td>
+
+                    <td class="py-3">
+
+                        {% if i.image %}
+                        <img src="{{ i.image.url }}"
+                             class="w-16 h-16 rounded-lg mx-auto object-cover">
+                        {% endif %}
+
+                    </td>
+
+                    <td class="font-semibold">
+                        {{ i.brand_name }}
+                    </td>
+
+                    <td>
+                        {{ i.slug }}
+                    </td>
+
+                    <td>
+                        {{ i.description|truncatechars:40 }}
+                    </td>
+
+                    <td>
+
+                        {% if i.status %}
+
+                        <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
+                            Active
+                        </span>
+
+                        {% else %}
+
+                        <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm">
+                            Inactive
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        <div class="flex justify-center gap-2">
+
+                            <a href="{% url 'edit_brand' i.id %}"
+                               class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded">
+
+                                Edit
+
+                            </a>
+
+                            <a href="{% url 'delete_brand' i.id %}"
+                               onclick="return confirm('Delete this Brand?')"
+                               class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
+
+                                Delete
+
+                            </a>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="8" class="py-8 text-center text-gray-500">
+
+                        No Brand Found.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </form>
+
+</div>
+
+<script>
+
+document.getElementById("checkAll").onclick=function(){
+
+    let items=document.getElementsByClassName("checkItem");
+
+    for(let i=0;i<items.length;i++)
+    {
+        items[i].checked=this.checked;
+    }
+
+}
+
+</script>
+
+</body>
+</html>

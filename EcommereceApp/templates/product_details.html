@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ product.product_name }}
+{% endblock %}
+
+{% block content %}
+
+<div class="max-w-7xl mx-auto py-10 px-5">
+
+    <div class="grid lg:grid-cols-2 gap-12">
+
+        <!-- Product Image -->
+
+        <div class="bg-white rounded-xl shadow p-6">
+
+            <img src="{{ product.image.url }}"
+                 class="w-full h-[500px] object-contain">
+
+        </div>
+
+        <!-- Product Details -->
+
+        <div>
+
+            <h1 class="text-4xl font-bold">
+
+                {{ product.product_name }}
+
+            </h1>
+
+            <div class="flex items-center mt-4">
+
+                <span class="bg-green-600 text-white px-3 py-1 rounded">
+
+                    ★ {{ product.rating }}
+
+                </span>
+
+            </div>
+
+            <div class="mt-6">
+
+                {% if product.discount_price %}
+
+                <span class="text-5xl font-bold text-green-600">
+
+                    ₹{{ product.discount_price }}
+
+                </span>
+
+                <span class="text-2xl text-gray-500 line-through ml-3">
+
+                    ₹{{ product.price }}
+
+                </span>
+
+                {% else %}
+
+                <span class="text-5xl font-bold">
+
+                    ₹{{ product.price }}
+
+                </span>
+
+                {% endif %}
+
+            </div>
+
+            <p class="mt-6 text-gray-700 leading-8">
+
+                {{ product.description }}
+
+            </p>
+
+            <div class="mt-8">
+
+                {% if product.stock > 0 %}
+
+                <span class="text-green-600 font-bold text-xl">
+
+                    In Stock
+
+                </span>
+
+                {% else %}
+
+                <span class="text-red-600 font-bold text-xl">
+
+                    Out Of Stock
+
+                </span>
+
+                {% endif %}
+
+            </div>
+
+            <div class="flex gap-5 mt-10">
+
+    <!-- ADD TO CART -->
+    <a href="{% url 'add_to_cart' product.id %}"
+       class="bg-yellow-500 hover:bg-yellow-600
+              text-white px-8 py-4 rounded-lg">
+
+        🛒 Add To Cart
+
+    </a>
+
+
+    <!-- WISHLIST -->
+    <a href="{% url 'add_wishlist' product.id %}"
+       class="bg-pink-500 hover:bg-pink-600
+              text-white px-8 py-4 rounded-lg">
+
+        ❤️ Wishlist
+
+    </a>
+
+
+    <!-- BUY NOW -->
+    <a href="{% url 'buy_now' product.id %}"
+       class="bg-red-500 hover:bg-red-600
+              text-white px-8 py-4 rounded-lg">
+
+        ⚡ Buy Now
+
+    </a>
+
+</div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

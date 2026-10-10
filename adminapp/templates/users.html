@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Users</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+<div class="min-h-screen p-8">
+
+    <!-- HEADER -->
+
+    <div class="flex justify-between items-center mb-8">
+
+        <div>
+            <h1 class="text-4xl font-bold">
+                Users
+            </h1>
+
+            <p class="text-gray-500 mt-2 text-lg">
+                Total Users:
+                <span class="font-bold text-indigo-600">
+                    {{ users_count }}
+                </span>
+            </p>
+        </div>
+
+
+        <!-- DASHBOARD BUTTON -->
+
+        <a href="{% url 'dashboard' %}"
+           class="bg-indigo-600 hover:bg-indigo-700
+                  text-white px-6 py-3 rounded-lg
+                  transition">
+
+            ← Dashboard
+
+        </a>
+
+    </div>
+
+
+    <!-- USERS TABLE -->
+
+    <div class="bg-white rounded-xl shadow-md overflow-x-auto">
+
+        <table class="w-full">
+
+            <thead class="bg-gray-900 text-white">
+
+                <tr>
+
+                    <th class="px-5 py-4 text-left">
+                        ID
+                    </th>
+
+                    
+
+                    <th class="px-5 py-4 text-left">
+                        Name
+                    </th>
+
+                    <th class="px-5 py-4 text-left">
+                        Email
+                    </th>
+
+                    <th class="px-5 py-4 text-left">
+                        Phone
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for user in users %}
+
+                <tr class="border-b hover:bg-gray-50">
+
+                    <!-- ID -->
+
+                    <td class="px-5 py-4">
+                        {{ user.id }}
+                    </td>
+
+
+
+
+                    <!-- NAME -->
+
+                    <td class="px-5 py-4 font-semibold">
+                        {{ user.name }}
+                    </td>
+
+
+                    <!-- EMAIL -->
+
+                    <td class="px-5 py-4">
+                        {{ user.email }}
+                    </td>
+
+
+                    <!-- PHONE -->
+
+                    <td class="px-5 py-4">
+                        {{ user.phone }}
+                    </td>
+
+                </tr>
+
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="5"
+                        class="px-5 py-12 text-center">
+
+                        <p class="text-2xl font-semibold text-gray-500">
+                            No Users Found 😔
+                        </p>
+
+                        <p class="text-gray-400 mt-2">
+                            No user has registered yet.
+                        </p>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
+

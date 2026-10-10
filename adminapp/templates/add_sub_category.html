@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Sub Category</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 mt-10 ml-5">
+    <a
+            href="{% url 'dashboard' %}"
+            class="bg-blue-600 hover:bg-gray-700 text-white px-8 py-3 rounded-lg">
+            Back to Dashboard
+          </a>
+          </div>
+
+<div class="min-h-screen flex items-center justify-center py-10 px-4">
+    
+
+    <div class="w-full max-w-3xl bg-white rounded-2xl shadow-xl">
+        
+
+        <!-- Header -->
+        <div class="bg-indigo-600 rounded-t-2xl px-8 py-6">
+            <h1 class="text-3xl font-bold text-white">
+                Add Sub Category
+            </h1>
+            <p class="text-indigo-100 mt-1">
+                Create a new sub category
+            </p>
+        </div>
+
+        <form action="" method="POST" class="p-8 space-y-6">
+
+            {% csrf_token %}
+
+            <!-- Category -->
+            <div>
+                <label class="block mb-2 font-semibold text-gray-700">
+                    Select Category
+                </label>
+
+                <select
+                    name="category"
+                    required
+                    class="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 outline-none">
+
+                    <option value="">Choose Category</option>
+
+                    {% for c in categories %}
+                        <option value="{{ c.id }}">
+                            {{ c.category_name }}
+                        </option>
+                    {% endfor %}
+
+                </select>
+            </div>
+
+            <!-- Sub Category -->
+             <div>
+                <label class="block mb-2 font-semibold text-gray-700">
+                    Sub Category Name
+                </label>
+
+                <input
+                    type="text"
+                    name="Sub_category_name"
+                    required
+                    class="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 outline-none">
+            </div>
+
+            
+                
+            <!-- Slug -->
+            <div>
+                <label class="block mb-2 font-semibold text-gray-700">
+                    Sub Category Slug
+                </label>
+
+                <input
+                    type="text"
+                    name="sub_slug"
+                    placeholder="mobile"
+                    required
+                    class="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 outline-none">
+            </div>
+
+            <!-- Description -->
+            <div>
+                <label class="block mb-2 font-semibold text-gray-700">
+                    Description
+                </label>
+
+                <textarea
+                    name="sub_desc"
+                    rows="5"
+                    placeholder="Enter Description"
+                    class="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+            </div>
+
+            <!-- Status -->
+            <div>
+                <label class="block mb-2 font-semibold text-gray-700">
+                    Status
+                </label>
+
+                <select
+                    name="status"
+                    class="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 outline-none">
+
+                    <option value="True">Active</option>
+                    <option value="False">Inactive</option>
+
+                </select>
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex gap-4 pt-2">
+
+                <button
+                    type="submit"
+                    class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-semibold">
+
+                    Save Sub Category
+
+                </button>
+
+                <button
+                    type="reset"
+                    class="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 rounded-lg font-semibold">
+
+                    Reset
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

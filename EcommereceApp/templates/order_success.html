@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}
+Order Successful
+{% endblock %}
+
+{% block content %}
+
+<div class="min-h-[70vh] flex items-center justify-center">
+
+    <div class="bg-white shadow-xl rounded-2xl p-10 text-center max-w-lg w-full">
+
+        <!-- Success Icon -->
+
+        <div class="text-6xl mb-5">
+            ✅
+        </div>
+
+        <h1 class="text-3xl font-bold text-green-600">
+            Order Placed Successfully!
+        </h1>
+
+        <p class="text-gray-600 mt-3">
+            Thank you for shopping with us.
+        </p>
+
+
+        <!-- Order Details -->
+
+        <div class="bg-gray-50 rounded-lg p-5 mt-6 text-left">
+
+            <div class="flex justify-between mb-3">
+
+                <span class="font-semibold">
+                    Order Number
+                </span>
+
+                <span>
+                    {{ order.order_number }}
+                </span>
+
+            </div>
+
+
+            <div class="flex justify-between mb-3">
+
+                <span class="font-semibold">
+                    Total Amount
+                </span>
+
+                <span class="font-bold">
+                    ₹{{ order.grand_total }}
+                </span>
+
+            </div>
+
+
+            <div class="flex justify-between mb-3">
+
+                <span class="font-semibold">
+                    Payment
+                </span>
+
+                <span>
+                    {{ order.payment_method }}
+                </span>
+
+            </div>
+
+
+            <div class="flex justify-between">
+
+                <span class="font-semibold">
+                    Status
+                </span>
+
+                <span class="text-yellow-600">
+                    {{ order.order_status }}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- Buttons -->
+
+        <div class="flex gap-4 mt-8">
+
+            <a href="{% url 'ecommerce' %}"
+               class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg">
+
+                Continue Shopping
+
+            </a>
+
+            <a href="{% url 'my_orders'%}"
+               class="flex-1 border border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white py-3 rounded-lg">
+
+                My Orders
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

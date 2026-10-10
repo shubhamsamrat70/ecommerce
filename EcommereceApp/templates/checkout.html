@@ -1,0 +1,533 @@
+{% extends "base.html" %}
+
+{% block title %}
+Checkout
+{% endblock %}
+
+{% block content %}
+
+<h2 class="text-4xl font-bold mb-8">
+    Checkout
+</h2>
+
+<div class="grid lg:grid-cols-3 gap-8">
+
+    <!-- ================= LEFT SIDE ================= -->
+
+    <div class="lg:col-span-2">
+
+        <!-- ================= DELIVERY ADDRESS ================= -->
+
+        <div class="bg-white rounded-xl shadow p-6">
+
+            <div class="flex justify-between items-center">
+
+                <h2 class="text-2xl font-bold">
+                    Delivery Address
+                </h2>
+
+                <a href="{% url 'view_address' %}"
+                   class="text-indigo-600 hover:text-indigo-800">
+
+                    Change
+
+                </a>
+
+            </div>
+
+
+            {% for add in address %}
+
+            <div class="border rounded-lg p-5 mt-5">
+
+                <h3 class="text-xl font-bold">
+                    {{ add.full_name }}
+                </h3>
+
+                <p class="text-gray-600 mt-2">
+                    {{ add.phone }}
+                </p>
+
+                <p class="text-gray-600 mt-2">
+                    {{ add.address_line1 }}
+                </p>
+
+                {% if add.address_line2 %}
+
+                <p class="text-gray-600">
+                    {{ add.address_line2 }}
+                </p>
+
+                {% endif %}
+
+                <p class="text-gray-600 mt-2">
+                    {{ add.city }},
+                    {{ add.state }} -
+                    {{ add.pincode }}
+                </p>
+
+            </div>
+
+            {% empty %}
+
+            <div class="border rounded-lg p-6 mt-5 text-center">
+
+                <h3 class="text-xl font-bold">
+                    No Address Found
+                </h3>
+
+                <p class="text-gray-500 mt-2">
+                    Please add a delivery address first.
+                </p>
+
+                <a href="{% url 'add_address' %}"
+                   class="inline-block mt-5 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg">
+
+                    Add Address
+
+                </a>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- ================= PAYMENT METHOD ================= -->
+
+        <div class="bg-white rounded-xl shadow p-6 mt-8">
+
+            <h2 class="text-2xl font-bold mb-5">
+                Payment Method
+            </h2>
+
+
+            <!-- COD -->
+
+            <label class="flex items-center gap-3 border rounded-lg p-4 mb-3 cursor-pointer hover:bg-gray-50">
+
+                <input
+                    type="radio"
+                    name="payment_method"
+                    value="COD"
+                    checked
+                    onchange="showPayment('COD')"
+                    class="w-5 h-5">
+
+                <div>
+
+                    <p class="font-semibold">
+                        Cash on Delivery
+                    </p>
+
+                    <p class="text-sm text-gray-500">
+                        Pay when your order arrives
+                    </p>
+
+                </div>
+
+            </label>
+
+
+            <!-- UPI -->
+
+            <label class="flex items-center gap-3 border rounded-lg p-4 mb-3 cursor-pointer hover:bg-gray-50">
+
+                <input
+                    type="radio"
+                    name="payment_method"
+                    value="UPI"
+                    onchange="showPayment('UPI')"
+                    class="w-5 h-5">
+
+                <div>
+
+                    <p class="font-semibold">
+                        UPI
+                    </p>
+
+                    <p class="text-sm text-gray-500">
+                        Google Pay / PhonePe / Paytm
+                    </p>
+
+                </div>
+
+            </label>
+
+
+            <!-- UPI INPUT -->
+
+            <div id="upiBox" class="hidden mb-4">
+
+                <label class="font-semibold">
+                    UPI ID / Number
+                </label>
+
+                <input
+                    type="text"
+                    id="upi_id"
+                    name="upi_id"
+                    placeholder="Enter UPI ID"
+                    class="w-full border rounded-lg p-3 mt-2">
+
+            </div>
+
+<!-- CARD -->
+
+<label class="flex items-center gap-3 border rounded-lg p-4 mb-3 cursor-pointer hover:bg-gray-50">
+
+    <input
+        type="radio"
+        name="payment_method"
+        value="CARD"
+        onchange="showPayment('CARD')"
+        class="w-5 h-5">
+
+    <div>
+        <p class="font-semibold">
+            Credit / Debit Card
+        </p>
+
+        <p class="text-sm text-gray-500">
+            Pay using your card
+        </p>
+    </div>
+
+</label>
+
+
+<!-- CARD INPUTS -->
+
+<div id="cardBox" class="hidden space-y-4">
+
+    <!-- Card Holder Name -->
+
+    <div>
+        <label class="font-semibold">
+            Card Holder Name
+        </label>
+
+        <input
+            type="text"
+            name="card_holder_name"
+            placeholder="Enter Card Holder Name"
+            class="w-full border rounded-lg p-3 mt-2"
+        >
+    </div>
+
+
+    <!-- Card Number -->
+
+    <div>
+        <label class="font-semibold">
+            Card Number
+        </label>
+
+        <input
+            type="text"
+            id="card_number"
+            name="card_number"
+            maxlength="19"
+            placeholder="Enter Card Number"
+            class="w-full border rounded-lg p-3 mt-2"
+        >
+    </div>
+
+
+    <!-- Expiry + CVV -->
+
+    <div class="grid grid-cols-2 gap-4">
+
+        <!-- Expiry -->
+
+        <div>
+            <label class="font-semibold">
+                Expiry Date
+            </label>
+
+            <input
+                type="text"
+                name="expiry_date"
+                maxlength="5"
+                placeholder="MM/YY"
+                class="w-full border rounded-lg p-3 mt-2"
+            >
+        </div>
+
+
+        <!-- CVV -->
+
+        <div>
+            <label class="font-semibold">
+                CVV
+            </label>
+
+            <input
+                type="password"
+                name="cvv"
+                maxlength="3"
+                placeholder="Enter CVV"
+                class="w-full border rounded-lg p-3 mt-2"
+            >
+        </div>
+
+    </div>
+
+</div>
+
+
+
+        <!-- ================= PRODUCTS ================= -->
+
+        <div class="bg-white rounded-xl shadow mt-8 p-6">
+
+            <h2 class="text-2xl font-bold mb-6">
+                Products
+            </h2>
+
+
+            {% for item in cart_items %}
+
+            <div class="flex gap-5 border-b py-5">
+
+                <!-- Image -->
+
+                <img src="{{ item.product.image.url }}"
+                     class="w-24 h-24 rounded-lg object-cover">
+
+
+                <!-- Product Details -->
+
+                <div class="flex-1">
+
+                    <h3 class="font-bold text-lg">
+                        {{ item.product.product_name }}
+                    </h3>
+
+                    <p class="text-gray-600 mt-2">
+                        Qty : {{ item.quantity }}
+                    </p>
+
+                    <p class="font-semibold mt-2">
+                        ₹{{ item.price }}
+                    </p>
+
+                    <p class="text-gray-600">
+                        Total : ₹{{ item.total_price }}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            {% empty %}
+
+            <p class="text-gray-500">
+                No products in cart.
+            </p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= RIGHT SIDE ================= -->
+
+    <div>
+
+        <div class="bg-white rounded-xl shadow p-6 sticky top-24">
+
+            <h2 class="text-2xl font-bold">
+                Price Details
+            </h2>
+
+
+            <div class="mt-5 space-y-4">
+
+                <!-- Total Items -->
+
+                <div class="flex justify-between">
+
+                    <span>
+                        Total Items
+                    </span>
+
+                    <span>
+                        {{ cart_items|length }}
+                    </span>
+
+                </div>
+
+
+                <!-- Delivery -->
+
+                <div class="flex justify-between">
+
+                    <span>
+                        Delivery
+                    </span>
+
+                    <span class="text-green-600">
+                        FREE
+                    </span>
+
+                </div>
+
+
+                <hr>
+
+
+                <!-- Total -->
+
+                <div class="flex justify-between text-2xl font-bold">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <span>
+                        ₹{{ total }}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= PLACE ORDER ================= -->
+
+            {% for add in address %}
+
+            <form method="POST"
+                  action="{% url 'place_order' add.id %}"
+                  class="mt-8">
+
+                {% csrf_token %}
+
+                <!-- Payment Method -->
+
+                <input
+                    type="hidden"
+                    name="payment_method"
+                    id="selected_payment_method"
+                    value="COD">
+
+                <!-- UPI -->
+
+                <input
+                    type="hidden"
+                    name="upi_id"
+                    id="selected_upi_id">
+
+                <!-- Card -->
+
+                <input
+                    type="hidden"
+                    name="card_number"
+                    id="selected_card_number">
+
+
+                <button
+                    type="submit"
+                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-lg font-semibold">
+
+                    Place Order
+
+                </button>
+
+            </form>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+function showPayment(method) {
+
+    let upiBox = document.getElementById("upiBox");
+    let cardBox = document.getElementById("cardBox");
+
+    let paymentMethod =
+        document.getElementById("selected_payment_method");
+
+    let upiInput =
+        document.getElementById("upi_id");
+
+    let cardInput =
+        document.getElementById("card_number");
+
+    let selectedUpi =
+        document.getElementById("selected_upi_id");
+
+    let selectedCard =
+        document.getElementById("selected_card_number");
+
+
+    // Hide both
+
+    upiBox.classList.add("hidden");
+    cardBox.classList.add("hidden");
+
+
+    // Payment method
+
+    paymentMethod.value = method;
+
+
+    // UPI
+
+    if (method === "UPI") {
+
+        upiBox.classList.remove("hidden");
+
+        selectedUpi.value = upiInput.value;
+
+    }
+
+
+    // Card
+
+    if (method === "CARD") {
+
+        cardBox.classList.remove("hidden");
+
+        selectedCard.value = cardInput.value;
+
+    }
+
+}
+
+
+// UPI input update
+
+document.getElementById("upi_id").addEventListener("input", function() {
+
+    document.getElementById("selected_upi_id").value = this.value;
+
+});
+
+
+// Card input update
+
+document.getElementById("card_number").addEventListener("input", function() {
+
+    document.getElementById("selected_card_number").value = this.value;
+
+});
+
+</script>
+
+
+{% endblock %}

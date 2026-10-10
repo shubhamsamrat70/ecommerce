@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 mt-10 ml-5">
+    <a href="{% url 'ecommerce' %}"
+           class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg">
+            Back To Home
+        </a>
+
+<div class="max-w-6xl mx-auto my-10 bg-white rounded-2xl shadow-xl overflow-hidden">
+    
+
+    <!-- Cover -->
+    <div class="h-52 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 relative">
+
+        {% if profile.profile_image %}
+        <img src="{{ profile.profile_image.url }}"
+             class="w-36 h-36 rounded-full border-4 border-white object-cover absolute left-10 -bottom-16">
+        {% else %}
+        <img src="https://via.placeholder.com/150"
+             class="w-36 h-36 rounded-full border-4 border-white object-cover absolute left-10 -bottom-16">
+        {% endif %}
+
+    </div>
+
+    <!-- Content -->
+    <div class="pt-24 px-10 pb-10">
+
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row justify-between items-center">
+
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800">
+                    {{ user.name }}
+                </h1>
+
+                <p class="text-gray-500">
+                    Welcome Back 👋
+                </p>
+            </div>
+
+            <div class="mt-5 md:mt-0 space-x-3">
+
+                <a href="{% url 'edit_profile' %}"
+                   class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg">
+                    Edit Profile
+                </a>
+
+                <a href="{% url 'profile' %}"
+                   class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg">
+                    Back
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- Complete Profile -->
+        <div class="bg-gray-50 rounded-xl shadow p-6 mt-10">
+
+            <h2 class="text-2xl font-bold mb-6 border-b pb-2">
+                Complete Profile
+            </h2>
+
+            <div class="grid md:grid-cols-2 gap-8">
+
+                <div class="space-y-4">
+
+                    <div class="flex justify-between">
+                        <span class="font-semibold">Name</span>
+                        <span>{{ user.name }}</span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span class="font-semibold">Email</span>
+                        <span>{{ user.email }}</span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span class="font-semibold">Phone</span>
+                        <span>{{ user.phone }}</span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span class="font-semibold">Gender</span>
+                        <span>{{ profile.gender }}</span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span class="font-semibold">Date of Birth</span>
+                        <span>{{ profile.dob }}</span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span class="font-semibold">Bio</span>
+                        <span>{{ profile.bio }}</span>
+                    </div>
+
+                </div>
+
+                <div class="flex justify-center items-center">
+
+                    {% if profile.profile_image %}
+                    <img src="{{ profile.profile_image.url }}"
+                         class="w-56 h-56 rounded-xl object-cover shadow-lg border">
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Address -->
+        <div class="bg-gray-50 rounded-xl shadow p-6 mt-8">
+
+            <h2 class="text-2xl font-bold mb-6 border-b pb-2">
+                Address Information
+            </h2>
+
+            {% if address %}
+
+            <div class="grid md:grid-cols-2 gap-6">
+
+                <div class="space-y-4">
+
+                    <div class="flex justify-between">
+                        <span class="font-semibold">Receiver Name</span>
+                        <span>{{ address.full_name }}</span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span class="font-semibold">Phone</span>
+                        <span>{{ address.phone }}</span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span class="font-semibold">Address Line 1</span>
+                        <span>{{ address.address_line1 }}</span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span class="font-semibold">Address Line 2</span>
+                        <span>{{ address.address_line2 }}</span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span class="font-semibold">City</span>
+                        <span>{{ address.city }}</span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span class="font-semibold">State</span>
+                        <span>{{ address.state }}</span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span class="font-semibold">Pincode</span>
+                        <span>{{ address.pincode }}</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% else %}
+
+            <div class="text-center py-8">
+
+                <p class="text-red-500 text-lg mb-4">
+                    No Address Added
+                </p>
+
+                <a href="{% url 'add_address' %}"
+                   class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg">
+                    Add Address
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Products</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+<div class="max-w-7xl mx-auto py-10 px-6">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6">
+
+        <div>
+            <h1 class="text-3xl font-bold text-gray-800">
+                Product Management
+            </h1>
+
+            <p class="text-gray-500">
+                View and manage all products.
+            </p>
+        </div>
+        
+                            <a href="{% url 'dashboard' %}"
+                               class="bg-blue-600 hover:bg-gray-700
+                                      text-white px-5 py-3
+                                    
+                                      rounded-lg">
+
+                                ← Dashboard
+
+                            </a>
+
+        <a href="{% url 'add_product' %}"
+           class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow">
+
+            + Add Product
+
+        </a>
+
+    </div>
+                <form method="GET" class="flex items-center gap-3 mb-6">
+
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ request.GET.search }}"
+                    placeholder="Search Product..."
+                    class="w-80 px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                <button
+                    type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">
+                    Search
+                </button>
+
+                <a href="{% url 'view_product' %}"
+                class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg">
+                    Reset
+                </a>
+
+            </form>
+
+    <form method="POST" action="{% url 'multiple_delete_product' %}">
+        {% csrf_token %}
+
+        <div class="mb-4 flex gap-3">
+
+            <button type="submit"
+                class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">
+
+                Delete Selected
+
+            </button>
+
+            <a href="{% url 'delete_all_product' %}"
+               onclick="return confirm('Delete All Products?')"
+               class="bg-gray-800 hover:bg-black text-white px-4 py-2 rounded">
+
+                Delete All
+
+            </a>
+
+        </div>
+
+        <div class="bg-white rounded-xl shadow overflow-x-auto">
+
+            <table class="w-full">
+
+                <thead class="bg-gray-900 text-white">
+
+                <tr>
+
+                    <th class="py-3">
+                        <input type="checkbox" id="checkAll">
+                    </th>
+
+                    <th>ID</th>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Sub Category</th>
+                    <th>Brand</th>
+                    <th>Price</th>
+                    <th>Discount</th>
+                    <th>Stock</th>
+                    <th>Rating</th>
+                    <th>Status</th>
+                    <th>Action</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for i in page_obj %}
+
+                <tr class="border-b text-center hover:bg-gray-50">
+
+                    <td>
+
+                        <input type="checkbox"
+                               class="checkItem"
+                               name="ids"
+                               value="{{ i.id }}">
+
+                    </td>
+
+                    <td>{{ i.id }}</td>
+
+                    <td>
+
+                        <img src="{{ i.image.url }}"
+                             class="w-16 h-16 rounded-lg object-cover mx-auto">
+
+                    </td>
+
+                    <td class="font-semibold">
+                        {{ i.product_name }}
+                    </td>
+
+                    <td>
+                        {{ i.category.category_name }}
+                    </td>
+
+                    <td>
+                        {{ i.sub_category.Sub_category_name }}
+                    </td>
+
+                    <td>
+                        {{ i.brand.brand_name }}
+                    </td>
+
+                    <td>
+                        ₹ {{ i.price }}
+                    </td>
+
+                    <td>
+                        ₹ {{ i.discount_price }}
+                    </td>
+
+                    <td>
+                        {{ i.stock }}
+                    </td>
+
+                    <td>
+
+                        ⭐ {{ i.rating }}
+
+                    </td>
+
+                    <td>
+
+                        {% if i.status %}
+
+                        <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full">
+
+                            Active
+
+                        </span>
+
+                        {% else %}
+
+                        <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full">
+
+                            Inactive
+
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+
+                        <div class="flex justify-center gap-2">
+
+                            <a href="{% url 'edit_product' i.id %}"
+                               class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded">
+
+                                Edit
+
+                            </a>
+
+                            <a href="{% url 'delete_product' i.id %}"
+                               onclick="return confirm('Delete this Product?')"
+                               class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded">
+
+                                Delete
+
+                            </a>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="13"
+                        class="text-center py-10 text-gray-500">
+
+                        No Products Found
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+            <div class="flex justify-center mt-8 gap-2">
+
+                    {% if page_obj.has_previous %}
+
+                    <a href="?page=1"
+                    class="px-4 py-2 bg-gray-300 rounded">
+                        First
+                    </a>
+
+                    <a href="?page={{ page_obj.previous_page_number }}"
+                    class="px-4 py-2 bg-blue-500 text-white rounded">
+                        Previous
+                    </a>
+
+                    {% endif %}
+
+                    <span class="px-4 py-2 bg-gray-800 text-white rounded">
+
+                        Page {{ page_obj.number }}
+
+                        of
+
+                        {{ page_obj.paginator.num_pages }}
+
+                    </span>
+
+                    {% if page_obj.has_next %}
+
+                    <a href="?page={{ page_obj.next_page_number }}"
+                    class="px-4 py-2 bg-blue-500 text-white rounded">
+                        Next
+                    </a>
+
+                    <a href="?page={{ page_obj.paginator.num_pages }}"
+                    class="px-4 py-2 bg-gray-300 rounded">
+                        Last
+                    </a>
+
+                    {% endif %}
+
+                </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+<script>
+
+document.getElementById("checkAll").onclick = function(){
+
+    let items=document.getElementsByClassName("checkItem");
+
+    for(let i=0;i<items.length;i++)
+    {
+        items[i].checked=this.checked;
+    }
+
+}
+
+</script>
+
+</body>
+</html>
